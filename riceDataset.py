@@ -2,10 +2,11 @@
 import os
 import pandas as pd
 import torch
+from torch.utils.data import Dataset
 from skimage import io
 
 # Class containing a rice dataset
-class riceDataset:
+class riceDataset(Dataset):
 
     # Constructor method
     def __init__(self,file_df,transform=None):
@@ -19,8 +20,8 @@ class riceDataset:
     # Returns a tuple containing the image as an RGB array and its label
     # index: index of the image to retrieve
     def __getitem__(self,index):
-        image = io.imread(self.file_df[index,0])
-        t_label = torch.tensor(int(self.file_df.iloc[index,1]))
+        image = io.imread(self.file_df["file"][index])
+        y_label = torch.tensor(int(self.file_df.iloc[index,1]))
 
         if self.transform:
             image = self.transform(image)
